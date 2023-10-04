@@ -1,7 +1,7 @@
 .error {
-    border: red 1px solid;
+    color: red;
 }
 
-.errorMessage {
-    color: red;
+.errorInput {
+    border: 1px solid red;
 }

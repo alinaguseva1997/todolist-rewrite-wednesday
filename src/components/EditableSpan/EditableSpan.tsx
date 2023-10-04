@@ -1,41 +1,41 @@
-import React, {ChangeEvent, FocusEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, FocusEvent, KeyboardEvent, MouseEvent, useState} from 'react';
 
-export type  EditableSpanPropsType = {
+export type EditableSpanPropsType = {
     title: string
-    changeTitle: (newTitle: string)=> void
+    callback: (newValue: string) => void
 }
 
 export const EditableSpan = (props: EditableSpanPropsType) => {
 
-    let [newTitle, setNewTitle] = useState(props.title)
-    let [collapsed, setCollapsed] = useState(false)
+    let [newValue, setNewValue] = useState(props.title)
+    let [update, setUpdate] = useState(false)
 
-    const onBlurHandler = (e: FocusEvent<HTMLInputElement>) => {
-        props.changeTitle(newTitle)
-        setCollapsed(false)
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setNewValue(e.currentTarget.value.trim())
+        props.callback(newValue)
     }
-    const onEnterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.code === 'Enter') {
-        props.changeTitle(newTitle)
-            setCollapsed(false)
+
+    const onDoubleClickHandler = (e: MouseEvent<HTMLSpanElement>) => {
+        setUpdate(true)
+    }
+
+    const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            setUpdate(false)
+            props.callback(newValue)
         }
     }
 
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewTitle(e.currentTarget.value)
-        setCollapsed(true)
+    const onBlurHandler = (e: FocusEvent<HTMLInputElement>) => {
+        setUpdate(false)
+        props.callback(newValue)
     }
 
-    const onDoubleClickHandler = () => {
-        setCollapsed(true)
-    }
     return (
         <>
-            {collapsed ?
-                <input onKeyDown={onEnterHandler} onBlur={onBlurHandler} value={newTitle}
-                       onChange={onChangeHandler} type="text" autoFocus/>
+            {update ?
+                 <input type="text" value={newValue} onChange={onChangeHandler} onKeyDown={onKeyDownHandler} onBlur={onBlurHandler} autoFocus/>
                 : <span onDoubleClick={onDoubleClickHandler}>{props.title}</span>
-
             }
         </>
     );

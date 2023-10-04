@@ -1,11 +1,12 @@
-.activeFilter {
-    background-color: aquamarine;
+.box {
+    margin-bottom: 15px;
 }
 
-.isDone {
-    opacity: 0.5;
+.title {
+    display: inline;
+    margin-right: 10px;
 }
 
-.titleTodolist {
-    font-weight: bold;
+.button {
+    display: inline;
 }
