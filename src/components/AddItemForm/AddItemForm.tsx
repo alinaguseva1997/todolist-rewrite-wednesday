@@ -5,7 +5,9 @@ export type AddItemFormPropsType = {
     addItemCallback: (title: string) => void
 }
 
-export const AddItemForm = (props: AddItemFormPropsType) => {
+export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
+    console.log('additemform')
+
     let [title, setTitle] = useState('')
     let [error, setError] = useState(false)
 
@@ -32,5 +34,5 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
             {error && <span className={s.error}>Title is false!</span>}
         </div>
     );
-};
+})
 
